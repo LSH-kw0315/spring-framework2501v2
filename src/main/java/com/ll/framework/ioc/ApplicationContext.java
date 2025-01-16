@@ -30,6 +30,7 @@ public class ApplicationContext {
         Set<Class<?>> components=reflections.getTypesAnnotatedWith(Component.class);
         Set<Class<?>> configurations=reflections.getTypesAnnotatedWith(Configuration.class);
 
+
         try {
             registerBeans(repositories);
             registerBeans(services);
@@ -46,8 +47,7 @@ public class ApplicationContext {
 
         for(Class<?> _class : classes){
 
-            if(beanFactory.containsKey(extractBeanName(_class.getName()))) return;
-            if(_class.isAnnotation()) continue;
+            if(_class.isAnnotation() || beanFactory.containsKey(extractBeanName(_class.getName()))) continue; //어노테이션이거나 이미 있다면 스킵
 
             Constructor<?>[] constructors = _class.getDeclaredConstructors();
 
